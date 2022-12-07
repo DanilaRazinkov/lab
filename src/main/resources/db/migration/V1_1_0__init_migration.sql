@@ -17,11 +17,11 @@ ALTER TABLE user_to_role
     ADD CONSTRAINT FK_ROLE FOREIGN KEY (role_id) REFERENCES user_role (id);
 
 
-CREATE TABLE "group"
+CREATE TABLE student_group
 (
     id     BIGINT  NOT NULL,
     number INTEGER NOT NULL,
-    CONSTRAINT pk_group PRIMARY KEY (id)
+    CONSTRAINT pk_student_group PRIMARY KEY (id)
 );
 
 CREATE TABLE student
@@ -33,7 +33,7 @@ CREATE TABLE student
 );
 
 ALTER TABLE student
-    ADD CONSTRAINT FK_STUDENT_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (id);
+    ADD CONSTRAINT FK_STUDENT_ON_GROUP FOREIGN KEY (group_id) REFERENCES "student_group" (id);
 
 
 CREATE TABLE base_user

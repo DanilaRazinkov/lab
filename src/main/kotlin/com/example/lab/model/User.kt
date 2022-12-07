@@ -35,7 +35,7 @@ data class User(
     )
     var roles: MutableSet<UserRole>,
 
-    @OneToOne
+    @OneToOne(mappedBy = "user")
     var student: Student? = null,
 
     @OneToOne

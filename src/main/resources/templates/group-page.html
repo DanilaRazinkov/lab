@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<span th:text="${group.getId()}"> Id </span><br>
+Number: <span th:text="${group.getNumber()}"> Name </span><br>
+<table class="table">
+    <tr>
+        <th> id</th>
+        <th> Name</th>
+        <th> Surname</th>
+        <th> Roles</th>
+    </tr>
+    <tr th:each="student : ${group.student}" th:with="user=${student.getUser()}">
+        <td><span th:text="${user.getId()}"> Id </span></td>
+        <td><span th:text="${user.getName()}"> Name </span></td>
+        <td><span th:text="${user.getSurname()}"> Surname </span></td>
+        <td><a th:href="@{/users/{userId}(userId=${user.getId()})}">User page</a></td>
+        <td>
+            <form class="container my-2" method="post"
+                  th:action="@{/students/{studentId}/groups/{groupId}/delete(groupId=${group.getId()}, studentId=${student.getId()})}">
+                <label>
+                    <button type="submit" class="btn btn-danger">Delete from group</button>
+                </label>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

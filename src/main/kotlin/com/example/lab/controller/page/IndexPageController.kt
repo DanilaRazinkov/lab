@@ -30,6 +30,11 @@ class IndexPageController(
         return "index.html"
     }
 
+    @GetMapping("/login-error")
+    fun loginError(): String {
+        return "error.html"
+    }
+
     @PostMapping("/sign-up")
     fun signUpTest(@ModelAttribute("userCreateRequest") userCreateRequest: UserCreateRequest): String {
         userService.createUser(userCreateRequest)

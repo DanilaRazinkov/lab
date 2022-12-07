@@ -19,9 +19,7 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-class WebSecurityConfig(
-    private val userService: UserService
-) {
+class WebSecurityConfig {
     @Bean
     fun authManager(
         http: HttpSecurity,
@@ -43,15 +41,13 @@ class WebSecurityConfig(
             .authorizeRequests()
             .antMatchers("/login").permitAll()
             .antMatchers("/sign-up").permitAll()
+            .antMatchers("/admin").hasRole("ADMIN")
             .anyRequest().authenticated()
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .formLogin()
             .loginPage("/login")
             .defaultSuccessUrl("/index")
-            .failureUrl("/login-error")
+            .failureUrl("/login")
             .permitAll()
             .and()
             .logout()

@@ -4,15 +4,18 @@ import com.example.lab.exceptions.NotFoundException
 import com.example.lab.extentions.transformes.toDetails.toUserDetails
 import com.example.lab.model.User
 import com.example.lab.model.UserRole
+import com.example.lab.model.details.UserDetailsBase
 import com.example.lab.model.dto.request.UserCreateRequest
 import com.example.lab.model.enums.Role
 import com.example.lab.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Lazy
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class UserService(
@@ -49,6 +52,25 @@ class UserService(
             roles = mutableSetOf(userRoleService.loadBaseRole())
         )
         userRepository.save(newUser)
+    }
+
+
+    fun findCurrentUser(): User {
+        val currentUser = SecurityContextHolder.getContext().authentication.principal as UserDetailsBase
+        return userRepository.findById(currentUser.id).orElseThrow {
+            log.warn("User not found")
+            throw NotFoundException("User not found by")
+        }
+    }
+    fun findUserById(userId: UUID): User {
+        return userRepository.findById(userId).orElseThrow {
+            log.warn("User not found by id: $userId")
+            throw NotFoundException("User not found by id: $userId")
+        }
+    }
+
+    fun findAll(): List<User> {
+        return userRepository.findAll()
     }
 
 }

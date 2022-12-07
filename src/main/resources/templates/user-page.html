@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<span th:text="${user.getId()}"> Id </span><br>
+Name: <span th:text="${user.getName()}"> Name </span><br>
+Surname: <span th:text="${user.getSurname()}"> Surname </span><br>
+Patronymic: <span th:text="${user.getPatronymic()}"> Patronymic </span><br>
+<div th:if="${user.getStudent() != null}">
+    Student data:
+    <div th:with="student=${user.getStudent()}">
+        <span th:text="${student.getGroup()}"></span>
+    <a th:href="@{/students/{studentId}/groups(studentId=${student.getId()})}">Add user in groups</a>
+    </div>
+</div>
+<div th:if="${user.getStudent() == null}" sec:authorize="hasRole('ADMIN')">
+    <form class="container my-2" method="post" th:action="@{/students?userId={userId}(userId=${user.getId()})}">
+        <label>
+            <button type="submit" class="btn btn-info">Add in students</button>
+        </label>
+    </form>
+</div>
+</body>
+</html>

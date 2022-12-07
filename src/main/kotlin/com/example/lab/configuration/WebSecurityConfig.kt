@@ -41,16 +41,21 @@ class WebSecurityConfig(
             .csrf()
             .disable()
             .authorizeRequests()
+            .antMatchers("/login").permitAll()
+            .antMatchers("/sign-up").permitAll()
+            .anyRequest().authenticated()
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .formLogin()
             .loginPage("/login")
+            .defaultSuccessUrl("/index")
             .failureUrl("/login-error")
+            .permitAll()
             .and()
             .logout()
-            .logoutSuccessUrl("/index.html");
+            .logoutSuccessUrl("/login");
         return http.build()
     }
 

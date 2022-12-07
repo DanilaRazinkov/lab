@@ -14,7 +14,7 @@ data class UserDetailsBase(
 ) : UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return roles.map { SimpleGrantedAuthority("ROLE_${it}") }
+        return roles.map { SimpleGrantedAuthority("ROLE_${it.name}") }
     }
 
     override fun getPassword() = userPassword

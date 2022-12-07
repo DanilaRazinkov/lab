@@ -5,7 +5,7 @@ import com.example.lab.model.details.UserDetailsBase
 
 fun User.toUserDetails() =
     UserDetailsBase(
-        id = id,
+        id = id!!,
         email = email,
         userPassword = password,
         roles = roles.map { it.role }.toSet()

@@ -10,7 +10,7 @@ data class User(
     @Id
     @GeneratedValue
     @Column(nullable = false)
-    var id: UUID,
+    var id: UUID? = null,
 
     @Column(nullable = false)
     var email: String,
@@ -27,7 +27,7 @@ data class User(
     @Column(nullable = false)
     var patronymic: String,
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "usersWithRole")
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_to_role",
         joinColumns = [JoinColumn(name = "user_id")],
@@ -35,11 +35,11 @@ data class User(
     )
     var roles: MutableSet<UserRole>,
 
-    @OneToOne(mappedBy = "user")
-    var student: Student,
+    @OneToOne
+    var student: Student? = null,
 
-    @OneToOne(mappedBy = "user")
-    var teacher: Teacher
+    @OneToOne
+    var teacher: Teacher? = null
 ) {
 
     override fun equals(other: Any?): Boolean {

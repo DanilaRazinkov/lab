@@ -1,0 +1,12 @@
+<h1>Sign up page</h1>
+<form class="container my-2" th:action="@{/sign-up}" th:object="${userCreateRequest}" method="post">
+    <label>
+        <input type="text" th:field="*{email}" placeholder="Email" class="form-control">
+        <input type="password" th:field="*{password}" placeholder="Password" class="form-control">
+        <input type="text" th:field="*{name}" placeholder="Name" class="form-control">
+        <input type="text" th:field="*{surname}" placeholder="Surname" class="form-control">
+        <input type="text" th:field="*{patronymic}" placeholder="patronymic" class="form-control">
+        <button type="submit" class="btn btn-info">Sign up</button>
+    </label>
+</form>
+</body>

@@ -2,10 +2,12 @@ package com.example.lab.model
 
 import com.example.lab.model.enums.Role
 import org.hibernate.Hibernate
+import org.springframework.stereotype.Indexed
 import java.util.*
 import javax.persistence.*
 
 @Entity(name = "base_user")
+@Indexed
 data class User(
     @Id
     @GeneratedValue

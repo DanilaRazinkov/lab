@@ -1,24 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns="http://www.w3.org/1999/html">
-<link rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="RU">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+<header th:insert="fragments/general.html :: header"></header>
 <body>
-<span th:text="${user.getId()}"> Id </span><br>
-Name: <span th:text="${user.getName()}"> Name </span><br>
-Surname: <span th:text="${user.getSurname()}"> Surname </span><br>
-Patronymic: <span th:text="${user.getPatronymic()}"> Patronymic </span><br>
+<table>
+    <tr sec:authorize="hasRole('ADMIN')">
+        <th>Id</th>
+        <th><span th:text="${user.getId()}"> Id </span></th>
+    </tr>
+    <tr>
+        <th>Name:</th>
+        <th><span th:text="${user.getName()}"> Name </span></th>
+    </tr>
+    <tr>
+        <th>Surname:</th>
+        <th><span th:text="${user.getSurname()}"> Surname </span></th>
+    </tr>
+    <tr>
+        <th>Patronymic:</th>
+        <th><span th:text="${user.getPatronymic()}"> Patronymic </span></th>
+    </tr>
+</table>
 <div th:if="${user.getStudent() != null}">
     Student data:
     <div th:with="student=${user.getStudent()}">
         <span th:text="${student.getGroup()}"></span>
-    <a th:href="@{/students/{studentId}/groups(studentId=${student.getId()})}">Add user in groups</a>
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/students/{studentId}/groups(studentId=${student.getId()})}">Add user in groups</a>
     </div>
 </div>
 <div th:if="${user.getStudent() == null}" sec:authorize="hasRole('ADMIN')">

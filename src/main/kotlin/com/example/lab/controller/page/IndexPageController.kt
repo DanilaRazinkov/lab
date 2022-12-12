@@ -31,13 +31,19 @@ class IndexPageController(
     }
 
     @GetMapping("/login-error")
-    fun loginError(): String {
-        return "error.html"
+    fun loginError(model: Model): String {
+        model.addAttribute("loginError", true);
+        return "login.html"
     }
 
     @PostMapping("/sign-up")
-    fun signUpTest(@ModelAttribute("userCreateRequest") userCreateRequest: UserCreateRequest): String {
-        userService.createUser(userCreateRequest)
+    fun signUpTest(@ModelAttribute("userCreateRequest") userCreateRequest: UserCreateRequest, model: Model): String {
+        try {
+            userService.createUser(userCreateRequest)
+        } catch (e: Exception) {
+            model.addAttribute("signUpError", e.message)
+            return "sign-up.html"
+        }
         return "redirect:/index.html"
     }
 }

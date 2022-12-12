@@ -40,6 +40,7 @@ class WebSecurityConfig {
             .disable()
             .authorizeRequests()
             .antMatchers("/login").permitAll()
+            .antMatchers("/index").permitAll()
             .antMatchers("/sign-up").permitAll()
             .antMatchers("/admin").hasRole("ADMIN")
             .anyRequest().authenticated()
@@ -47,11 +48,11 @@ class WebSecurityConfig {
             .formLogin()
             .loginPage("/login")
             .defaultSuccessUrl("/index")
-            .failureUrl("/login")
+            .failureUrl("/login-error")
             .permitAll()
             .and()
             .logout()
-            .logoutSuccessUrl("/login");
+            .logoutSuccessUrl("/login")
         return http.build()
     }
 

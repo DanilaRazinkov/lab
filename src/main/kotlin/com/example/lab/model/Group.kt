@@ -1,9 +1,11 @@
 package com.example.lab.model
 
 import org.hibernate.Hibernate
+import org.springframework.stereotype.Indexed
 import javax.persistence.*
 
 @Entity(name = "student_group")
+@Indexed
 data class Group(
     @Id
     @GeneratedValue

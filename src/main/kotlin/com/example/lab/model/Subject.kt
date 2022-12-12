@@ -1,12 +1,14 @@
 package com.example.lab.model
 
 import org.hibernate.Hibernate
+import org.springframework.stereotype.Indexed
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity(name = "subject")
+@Indexed
 data class Subject(
     @Id
     @GeneratedValue()

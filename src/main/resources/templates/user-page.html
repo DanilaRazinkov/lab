@@ -9,7 +9,7 @@
 </head>
 <header th:insert="fragments/general.html :: header"></header>
 <body>
-<table>
+<table class="table table-striped table-bordered">
     <tr sec:authorize="hasRole('ADMIN')">
         <th>Id</th>
         <th><span th:text="${user.getId()}"> Id </span></th>
@@ -40,6 +40,31 @@
         <label>
             <button type="submit" class="btn btn-info">Add in students</button>
         </label>
+    </form>
+</div>
+<div th:if="${user.getTeacher() != null}">
+    Teacher date:
+    <div th:with="teacher=${user.getTeacher()}">
+        Position: <span th:text="${teacher.getPosition()}"> pos </span> <br>
+        Experience: <span th:text="${teacher.getExperience()}"> exp </span>
+        Degree: <span th:text="${teacher.getDegree()}"> degree </span>
+    </div>
+</div>
+<div sec:authorize="hasRole('ADMIN')">
+    <form th:action="@{/teachers/{userId}/update(userId=${user.getId()})}" th:object="${teacher}" method="post">
+        <div class="form-group">
+            <label for="position">position</label>
+            <input type="text" th:field="*{position}" class="form-control" id="position" name="position">
+        </div>
+        <div class="form-group">
+            <label for="experience">experience</label>
+            <input type="text" th:field="*{experience}" class="form-control" name="experience" id="experience">
+        </div>
+        <div class="form-group">
+            <label for="degree">degree</label>
+            <input type="text" class="form-control" name="degree" id="degree">
+        </div>
+        <button type="submit" th:field="*{degree}" class="btn btn-primary">Submit</button>
     </form>
 </div>
 </body>

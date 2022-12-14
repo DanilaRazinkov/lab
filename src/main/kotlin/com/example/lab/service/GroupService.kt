@@ -32,7 +32,7 @@ class GroupService(
     }
 
     fun creatGroup(groupCreatRequest: GroupCreatRequest) {
-        groupRepository.save(Group(number = groupCreatRequest.number))
+        groupRepository.save(Group(number = groupCreatRequest.number, course = groupCreatRequest.course))
     }
 
     fun createStudentAddGroupPage(studentId: UUID): StudentAddGroupPage {

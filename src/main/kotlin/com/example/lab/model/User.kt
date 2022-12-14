@@ -37,10 +37,10 @@ data class User(
     )
     var roles: MutableSet<UserRole>,
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", optional = true)
     var student: Student? = null,
 
-    @OneToOne
+    @OneToOne(mappedBy = "user", optional = true)
     var teacher: Teacher? = null
 ) {
 

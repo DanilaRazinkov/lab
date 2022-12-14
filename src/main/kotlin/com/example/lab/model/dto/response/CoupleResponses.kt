@@ -1,12 +1,13 @@
 package com.example.lab.model.dto.response
 
 import com.example.lab.model.Couple
+import com.example.lab.model.dto.request.CoupleDto
 
-data class BaseCoupleResponses (
-    val mon: List<Couple>? = null,
-    val tue: List<Couple>? = null,
-    val wen: List<Couple>? = null,
-    val thu: List<Couple>? = null,
-    val fri: List<Couple>? = null,
-    val sun: List<Couple>? = null
+data class BaseCoupleResponses(
+    var mon: MutableMap<Int, CoupleDto>? = mutableMapOf(),
+    var tue: MutableMap<Int, CoupleDto>? = mutableMapOf(),
+    var wen: MutableMap<Int, CoupleDto>? = mutableMapOf(),
+    var thu: MutableMap<Int, CoupleDto>? = mutableMapOf(),
+    var fri: MutableMap<Int, CoupleDto>? = mutableMapOf(),
+    var sun: MutableMap<Int, CoupleDto>? = mutableMapOf()
 )

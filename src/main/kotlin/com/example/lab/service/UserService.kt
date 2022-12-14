@@ -62,6 +62,7 @@ class UserService(
             throw NotFoundException("User not found by")
         }
     }
+
     fun findUserById(userId: UUID): User {
         return userRepository.findById(userId).orElseThrow {
             log.warn("User not found by id: $userId")
@@ -71,6 +72,10 @@ class UserService(
 
     fun findAll(): List<User> {
         return userRepository.findAll()
+    }
+
+    fun saveUser(user: User) {
+        userRepository.save(user)
     }
 
 }

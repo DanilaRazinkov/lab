@@ -9,7 +9,7 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
-    <link th:href="@{/css/table.css}" rel="stylesheet" />
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
     <script type="text/javascript" th:src="@{/js/table.js}"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -17,10 +17,21 @@
 </head>
 <header th:insert="fragments/general.html :: header"></header>
 <body>
-<table id="example" class="table table-striped table-bordered" cellspacing="0">
+<p>
+    <button onclick="sortTable(0)" class="btn btn-primary">Sort id</button>
+</p>
+<p>
+    <button onclick="sortTable(1)" class="btn btn-primary">Sort name</button>
+</p>
+<p>
+    <button onclick="sortTable(2)" class="btn btn-primary">Sort surname</button>
+</p>
+<label for="myInput">Name search</label><input type="text" id="myInput" onkeyup="myFunction('myInput', 0)" placeholder="Search for name">
+<label for="myInput2">Surname search</label><input type="text" id="myInput2" onkeyup="myFunction('myInput2', 1)" placeholder="Search for surname">
+<table id="myTable" class="table table-striped table-bordered" cellspacing="0">
     <tr>
         <th class="th-sm"> id</th>
-        <th class="th-sm"> Name</th>
+        <th class="th-sm sorting sorting_desc">Name</th>
         <th class="th-sm"> Surname</th>
         <th class="th-sm"> Roles</th>
     </tr>
@@ -33,4 +44,64 @@
     </tr>
 </table>
 </body>
+
+<script>
+    function sortTable(index) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("myTable");
+        switching = true;
+        /*Сделайте петлю, которая будет продолжаться до тех пор, пока
+        никакого переключения не было сделано:*/
+        while (switching) {
+            //начните с того, что скажите: никакого переключения не происходит:
+            switching = false;
+            rows = table.rows;
+            /*Цикл через все строки таблицы (за исключением
+            во-первых, который содержит заголовки таблиц):*/
+            for (i = 1; i < (rows.length - 1); i++) {
+                //начните с того, что не должно быть никакого переключения:
+                shouldSwitch = false;
+                /*Получите два элемента, которые вы хотите сравнить,
+                один из текущей строки и один из следующей:*/
+                x = rows[i].getElementsByTagName("TD")[index];
+                y = rows[i + 1].getElementsByTagName("TD")[index];
+                //проверьте, должны ли две строки поменяться местами:
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    //если это так, отметьте как переключатель и разорвите петлю:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                /*Если переключатель был отмечен, сделайте переключатель
+                и отметьте, что переключение было сделано:*/
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+
+    function myFunction(myInput, index) {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById(myInput);
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[index + 1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+</script>
 </html>

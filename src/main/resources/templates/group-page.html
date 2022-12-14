@@ -6,9 +6,11 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
 </head>
+<header th:insert="fragments/general.html :: header"></header>
 <body>
-<span th:text="${group.getId()}"> Id </span><br>
+Id: <span th:text="${group.getId()}"> Id </span><br>
 Number: <span th:text="${group.getNumber()}"> Name </span><br>
+Course: <span th:text="${group.getCourse()}"> Course </span><br>
 <table class="table">
     <tr>
         <th> id</th>

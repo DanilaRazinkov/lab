@@ -1,5 +1,6 @@
 package com.example.lab.controller.page
 
+import com.example.lab.model.dto.request.toCreatRequest
 import com.example.lab.service.UserService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -14,13 +15,17 @@ class UserController(
 
     @GetMapping("/users/{userId}")
     fun userPage(@PathVariable userId: UUID, model: Model): String {
-        model.addAttribute("user", userService.findUserById(userId))
+        val user = userService.findUserById(userId)
+        model.addAttribute("user", user)
+        model.addAttribute("teacher", user.teacher.toCreatRequest())
         return "user-page"
     }
 
     @GetMapping("/users/my")
     fun userMyPage(model: Model): String {
+        val user = userService.findCurrentUser()
         model.addAttribute("user", userService.findCurrentUser())
+        model.addAttribute("teacher", user.teacher.toCreatRequest())
         return "user-page"
     }
 

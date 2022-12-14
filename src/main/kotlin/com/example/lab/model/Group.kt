@@ -14,8 +14,25 @@ data class Group(
     @Column(nullable = false)
     var number: Int,
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
-    var student: MutableList<Student> = mutableListOf()
+    @Column(nullable = false)
+    var course: Int,
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+    var student: MutableList<Student> = mutableListOf(),
+
+    @ManyToMany(
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST]
+    )
+    @JoinTable(
+        name = "couple_group",
+        joinColumns = [JoinColumn(name = "group_id")],
+        inverseJoinColumns = [JoinColumn(name = "couple_id")]
+    )
+    val couple: MutableList<Couple> = mutableListOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

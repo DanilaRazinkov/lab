@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="RU">
+<head>
+    <title>Login page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<header th:insert="fragments/general.html :: header"></header>
+<body>
+<form th:action="@{/couples}" th:object="${dto}" method="post">
+    <div class="form-check">
+        <div class="custom-control custom-radio custom-control-inline">
+            <input id="1" type="radio" th:field="*{hour}" th:value="1" class="custom-control-input">
+            <label for="1" class="custom-control-label">8:00-9:35</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input id="2" type="radio" th:field="*{hour}" th:value="2" class="custom-control-input">
+            <label for="2" class="custom-control-label">9:45-11:20</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input id="3" type="radio" th:field="*{hour}" th:value="3" class="custom-control-input">
+            <label for="3" class="custom-control-label">11:30-13:05</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input id="4" type="radio" th:field="*{hour}" th:value="4" class="custom-control-input">
+            <label for="4" class="custom-control-label">13:25-15:00</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input id="5" type="radio" th:field="*{hour}" th:value="5" class="custom-control-input">
+            <label for="5" class="custom-control-label">15:10-16:45</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input id="6" type="radio" th:field="*{hour}" th:value="6" class="custom-control-input">
+            <label for="6" class="custom-control-label">16:55-18:30</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input id="7" type="radio" th:field="*{hour}" th:value="7" class="custom-control-input">
+            <label for="7" class="custom-control-label">18:40-20:00</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="subjectName">subjectName</label>
+        <input type="text" th:field="*{subjectName}" class="form-control" name="subjectName" id="subjectName">
+    </div>
+    <div class="form-group">
+        <label for="audience">audience</label>
+        <input type="text" th:field="*{audience}" class="form-control" name="subjectName" id="audience">
+    </div>
+    <label th:name="period">
+        <select class="form-select" aria-label="Default select example" name="period">
+            <option th:each="period : ${T(com.example.lab.model.enums.Period).values()}"
+                    th:value="${period}" th:text="${period}"></option>
+        </select>
+    </label><br>
+    <label th:name="period">
+        <select th:field="*{dayOfWeek}"class="form-select" aria-label="Default select example" name="period">
+            <option th:each="day : ${T(java.time.DayOfWeek).values()}"
+                    th:value="${day}" th:text="${day.name()}"></option>
+        </select>
+    </label><br>
+    Semester: <label th:name="semester">
+    <select th:field="*{semesterId}" class="form-select form-select-lg mb-3" aria-label="Default select example"
+            name="semester">
+        <option th:each="semester : ${semesters}"
+                th:value="${semester.id}" th:text="${semester.semesterStart} + '/' +  ${semester.semesterEnd}"></option>
+    </select>
+</label><br>
+    Teacher: <label th:name="teacher">
+    <select th:field="*{teacherId}" class="form-select form-select-lg mb-3" aria-label="Default select example"
+            name="semester">
+        <option th:each="teacher : ${teachers}"
+                th:value="${teacher.id}"
+                th:text="${teacher.user.name} + ' '  + ${teacher.user.surname} + ' ' + ${teacher.user.patronymic}"></option>
+    </select>
+</label><br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>

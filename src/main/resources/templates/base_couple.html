@@ -19,35 +19,53 @@
         <th class="th-sm"> Sat</th>
     </tr>
     <tr th:each="hour : ${#numbers.sequence(0, 8)}">
-        <td>
-            <div th:text="${dto.mon}"> Subject </div>
-            <div th:text="${dto.mon}"> Mon Couple </div>
-            <div th:text="${dto.mon}"> Teacher </div>
+        <td th:if="${dto.mon} != null">
+            <div th:if="${dto.mon.get(hour)} != null" th:text="${dto.mon.get(hour).getSubject().getName()}"> Subject</div>
+            <div th:if="${dto.mon.get(hour)} != null" th:text="${dto.mon.get(hour).getAudience()}"> Mon Couple</div>
+            <div th:if="${dto.mon.get(hour)} != null" th:text="${dto.mon.get(hour).getTeacher().user.surname}"> Teacher</div>
         </td>
-        <td>
-            <div th:text="${dto.tue}"> Subject </div>
-            <div th:text="${dto.tue}"> Mon Couple </div>
-            <div th:text="${dto.tue}"> Teacher </div>
+        <td th:if="${dto.mon} == null">
+            <div> Holiday</div>
         </td>
-        <td>
-            <div th:text="${dto.wed}"> Subject </div>
-            <div th:text="${dto.wed}"> Mon Couple </div>
-            <div th:text="${dto.wed}"> Teacher </div>
+        <td th:if="${dto.tue} != null">
+            <div th:if="${dto.tue.get(hour)} != null" th:text="${dto.tue.get(hour).getSubject().getName()}"> Subject</div>
+            <div th:if="${dto.tue.get(hour)} != null" th:text="${dto.tue.get(hour).getAudience()}"> Mon Couple</div>
+            <div th:if="${dto.tue.get(hour)} != null" th:text="${dto.tue.get(hour).getTeacher().user.surname}"> Teacher</div>
         </td>
-        <td>
-            <div th:text="${dto.thu}"> Subject </div>
-            <div th:text="${dto.thu}"> Mon Couple </div>
-            <div th:text="${dto.thu}"> Teacher </div>
+        <td th:if="${dto.tue} == null">
+            <div> Holiday</div>
         </td>
-        <td>
-            <div th:text="${dto.fri}"> Subject </div>
-            <div th:text="${dto.fri}"> Mon Couple </div>
-            <div th:text="${dto.fri}"> Teacher </div>
+        <td th:if="${dto.wen} != null">
+            <div th:if="${dto.wen.get(hour)} != null" th:text="${dto.wen.get(hour).getSubject().getName()}"> Subject</div>
+            <div th:if="${dto.wen.get(hour)} != null" th:text="${dto.wen.get(hour).getAudience()}"> Mon Couple</div>
+            <div th:if="${dto.wen.get(hour)} != null" th:text="${dto.wen.get(hour).getTeacher().user.surname}"> Teacher</div>
         </td>
-        <td>
-            <div th:text="${dto.sat}"> Subject </div>
-            <div th:text="${dto.sat}"> Mon Couple </div>
-            <div th:text="${dto.sat}"> Teacher </div>
+        <td th:if="${dto.wen} == null">
+            <div> Holiday</div>
+        </td>
+        <td th:if="${dto.thu} != null">
+            <div th:if="${dto.thu.get(hour)} != null" th:text="${dto.thu.get(hour).getSubject().getName()}"> Subject</div>
+            <div th:if="${dto.thu.get(hour)} != null" th:text="${dto.thu.get(hour).getAudience()}"> Mon Couple</div>
+            <div th:if="${dto.thu.get(hour)} != null" th:text="${dto.thu.get(hour).getTeacher().user.surname}"> Teacher</div>
+        </td>
+        <td th:if="${dto.thu} == null">
+            <div> Holiday</div>
+        </td>
+        <td th:if="${dto.fri} == null">
+            <div> Holiday</div>
+        </td>
+        <td th:if="${dto.fri} != null">
+            <div th:if="${dto.fri.get(hour)} != null" th:text="${dto.fri.get(hour).getSubject().getName()}"> Subject</div>
+            <div th:if="${dto.fri.get(hour)} != null" th:text="${dto.fri.get(hour).getAudience()}"> Mon Couple</div>
+            <div th:if="${dto.fri.get(hour)} != null" th:text="${dto.fri.get(hour).getTeacher().user.surname}"> Teacher</div>
+        </td>
+        <td th:if="${dto.sun} != null">
+            <div th:if="${dto.sun.get(hour)} != null" th:text="${dto.sun.get(hour).getSubject().getName()}"> Subject</div>
+            <div th:if="${dto.sun.get(hour)} != null" th:text="${dto.sun.get(hour).getAudience()}"> Mon Couple</div>
+            <div th:if="${dto.sun.get(hour)} != null" th:text="${dto.sun.get(hour).getTeacher().user.surname}"> Teacher</div>
+        </td>
+        <td th:if="${dto.sun} == null">
+            <div> Holiday</div>
         </td>
     </tr>
 </table>

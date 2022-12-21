@@ -13,9 +13,9 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
     today
 </span>
 <div>
-    <a th:href="@{/groups/{groupId}/couple/{weak}(groupId=${dto.getGroup()}, weak=${dto.getHidenToday().minusDays(7)})}">Prev
+    <a th:href="@{/teacher/my/{weak}(weak=${dto.getHidenToday().minusDays(7)})}">Prev
         weak</a>
-    <a th:href="@{/groups/{groupId}/couple/{weak}(groupId=${dto.getGroup()}, weak=${dto.getHidenToday().plusDays(7)})}">Next
+    <a th:href="@{/teacher/my/{weak}(weak=${dto.getHidenToday().plusDays(7)})}">Next
         weak</a>
 </div>
 <table id="example" class="table table-striped table-bordered">
@@ -37,12 +37,8 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                 Couple
             </div>
             <div th:if="${dto.mon.get(hour)} != null"
-                 th:text="'Teacher: ' + ${dto.mon.get(hour).getTeacher().user.surname}">
-                Teacher
+                 th:text="'Groups: ' + ${dto.mon.get(hour).getGroups()}">
             </div>
-        </td>
-        <td th:if="${dto.mon} == null">
-            <div> Holiday</div>
         </td>
         <td th:if="${dto.tue} != null">
             <div th:if="${dto.tue.get(hour)} != null"
@@ -53,8 +49,7 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                 Couple
             </div>
             <div th:if="${dto.tue.get(hour)} != null"
-                 th:text="'Teacher: ' + ${dto.tue.get(hour).getTeacher().user.surname}">
-                Teacher
+                 th:text="'Groups: ' + ${dto.tue.get(hour).getGroups()}">
             </div>
         </td>
         <td th:if="${dto.tue} == null">
@@ -69,8 +64,7 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                 Couple
             </div>
             <div th:if="${dto.wen.get(hour)} != null"
-                 th:text="'Teacher: ' + ${dto.wen.get(hour).getTeacher().user.surname}">
-                Teacher
+                 th:text="'Groups: ' + ${dto.wen.get(hour).getGroups()}">
             </div>
         </td>
         <td th:if="${dto.wen} == null">
@@ -85,8 +79,7 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                 Couple
             </div>
             <div th:if="${dto.thu.get(hour)} != null"
-                 th:text="'Teacher: ' + ${dto.thu.get(hour).getTeacher().user.surname}">
-                Teacher
+                 th:text="'Groups: ' + ${dto.thu.get(hour).getGroups()}">
             </div>
         </td>
         <td th:if="${dto.thu} == null">
@@ -104,8 +97,7 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                 Couple
             </div>
             <div th:if="${dto.fri.get(hour)} != null"
-                 th:text="'Teacher: ' + ${dto.fri.get(hour).getTeacher().user.surname}">
-                Teacher
+                 th:text="'Groups: ' + ${dto.fri.get(hour).getGroups()}">
             </div>
         </td>
         <td th:if="${dto.sun} != null">
@@ -117,8 +109,7 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                 Couple
             </div>
             <div th:if="${dto.sun.get(hour)} != null"
-                 th:text="'Teacher: ' + ${dto.sun.get(hour).getTeacher().user.surname}">
-                Teacher
+                 th:text="'Groups: ' + ${dto.sun.get(hour).getGroups()}">
             </div>
         </td>
         <td th:if="${dto.sun} == null">

@@ -9,6 +9,7 @@ import com.example.lab.service.CoupleService
 import com.example.lab.service.GroupService
 import com.example.lab.service.StudentService
 import com.example.lab.service.UserService
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -59,7 +60,7 @@ class StudentController(
         val number = now.get(weak.weekOfWeekBasedYear());
         val firstDay = now.with(DayOfWeek.MONDAY)
         val isNum = number % 2 == 0
-        val coupleResponse = BaseCoupleResponses()
+        val coupleResponse = BaseCoupleResponses(group = groupId)
 
         val group = groupService.findById(groupId)
         group.couple.forEach {
@@ -69,10 +70,68 @@ class StudentController(
                 list?.put(it.hour, it.toDTO())
             }
         }
-
+        group.occupation.forEach {
+            val weak1 = it.date.get(weak.weekOfWeekBasedYear())
+            if (weak1 == number) {
+                val day = now.dayOfWeek
+                val list = loadDay(day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+        if (now == LocalDate.now()) {
+            coupleResponse.today = now.dayOfWeek
+        }
         val t = group.couple.firstOrNull()
         if (t == null) {
             model.addAttribute("dto", BaseCoupleResponses())
+            return "base_couple"
+        }
+        t.semester.holidays.forEach {
+            if (it.date.get(weak.weekOfWeekBasedYear()) == number) {
+                nullDay(it.date.dayOfWeek, coupleResponse)
+            }
+        }
+        model.addAttribute("dto", coupleResponse)
+        return "base_couple"
+    }
+
+    @GetMapping("/groups/{groupId}/couple/{today}")
+    fun load(
+        @PathVariable groupId: Long,
+        @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) today: LocalDate,
+        model: Model
+    ): String {
+        val now = today
+        val weak = WeekFields.of(Locale.getDefault())
+        val number = now.get(weak.weekOfWeekBasedYear());
+        val firstDay = now.with(DayOfWeek.MONDAY)
+        val isNum = number % 2 == 0
+        val coupleResponse = BaseCoupleResponses(group = groupId, hidenToday = now)
+
+        val group = groupService.findById(groupId)
+        group.couple.forEach {
+            val day = now.with(it.day)
+            if (isNum && it.period == Period.NUMERATOR || !isNum && it.period == Period.DENOMINATION || Period.FULL == it.period) {
+                val list = loadDay(it.day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+        group.occupation.forEach {
+            val weak1 = it.date.get(weak.weekOfWeekBasedYear())
+            if (weak1 == number) {
+                val day = now.dayOfWeek
+                val list = loadDay(day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+
+        val t = group.couple.firstOrNull()
+        if (now == LocalDate.now()) {
+            coupleResponse.today = now.dayOfWeek
+        }
+
+        if (t == null) {
+            model.addAttribute("dto", BaseCoupleResponses(group = groupId))
             return "base_couple"
         }
         t.semester.holidays.forEach {

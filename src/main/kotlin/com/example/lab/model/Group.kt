@@ -32,7 +32,21 @@ data class Group(
         joinColumns = [JoinColumn(name = "group_id")],
         inverseJoinColumns = [JoinColumn(name = "couple_id")]
     )
-    val couple: MutableList<Couple> = mutableListOf()
+    val couple: MutableList<Couple> = mutableListOf(),
+
+    @ManyToMany(
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST]
+    )
+    @JoinTable(
+        name = "occupation_group",
+        joinColumns = [JoinColumn(name = "group_id")],
+        inverseJoinColumns = [JoinColumn(name = "occupation_id")]
+    )
+    val occupation: MutableList<Occupation> = mutableListOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

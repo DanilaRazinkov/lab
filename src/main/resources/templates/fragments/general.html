@@ -25,6 +25,15 @@
                 <li sec:authorize="hasRole('BASE')" class="nav-item">
                     <a class="nav-link" th:href="@{/student/my/couple}">Couples</a>
                 </li>
+                <li sec:authorize="hasRole('TEACHER')" class="nav-item">
+                    <a class="nav-link" th:href="@{/ocups/my}">Занятия</a>
+                </li>
+                <li sec:authorize="hasRole('TEACHER')" class="nav-item">
+                    <a class="nav-link" th:href="@{/ocups}">Запланировать занятие</a>
+                </li>
+                <li sec:authorize="hasRole('TEACHER')" class="nav-item">
+                    <a class="nav-link" th:href="@{/teacher/my/couple}">Расписание</a>
+                </li>
                 <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                     <a class="nav-link" th:href="@{/groups}">Groups</a>
                 </li>

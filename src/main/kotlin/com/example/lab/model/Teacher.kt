@@ -21,7 +21,13 @@ data class Teacher(
 
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    var user: User
+    var user: User,
+
+    @OneToMany(mappedBy = "teacher")
+    var couple: MutableList<Couple> = mutableListOf(),
+
+    @OneToMany(mappedBy = "teacher")
+    var occupation: MutableList<Occupation> = mutableListOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

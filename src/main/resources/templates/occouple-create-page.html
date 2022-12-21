@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="RU">
+<link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.css}"/>
+<link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css}"/>
+<link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+<link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
 <head>
     <title>Login page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -9,8 +13,9 @@
 </head>
 <header th:insert="fragments/general.html :: header"></header>
 <body>
-<form th:action="@{/couples}" th:object="${dto}" method="post">
-    <div class="form-check">
+<span th:text="${error}"></span>
+<form th:action="@{/ocups}" th:object="${dto}" method="post">
+    <div class="form-group row">
         <div class="custom-control custom-radio custom-control-inline">
             <input id="1" type="radio" th:field="*{hour}" th:value="1" class="custom-control-input">
             <label for="1" class="custom-control-label">8:00-9:35</label>
@@ -40,7 +45,7 @@
             <label for="7" class="custom-control-label">18:40-20:00</label>
         </div>
     </div>
-    <div class="form-group">
+    <div>
         <label for="subjectName">subjectName</label>
         <input type="text" th:field="*{subjectName}" class="form-control" name="subjectName" id="subjectName">
     </div>
@@ -48,34 +53,24 @@
         <label for="audience">audience</label>
         <input type="text" th:field="*{audience}" class="form-control" name="subjectName" id="audience">
     </div>
-    <label th:name="period">
-        <select class="form-select" aria-label="Default select example" name="period">
-            <option th:each="period : ${T(com.example.lab.model.enums.Period).values()}"
-                    th:value="${period}" th:text="${period}"></option>
-        </select>
-    </label><br>
-    <label th:name="period">
-        <select th:field="*{dayOfWeek}" class="form-select" aria-label="Default select example" name="period">
-            <option th:each="day : ${T(java.time.DayOfWeek).values()}"
-                    th:value="${day}" th:text="${day.name()}"></option>
-        </select>
-    </label><br>
-    Semester: <label th:name="semester">
-    <select th:field="*{semesterId}" class="form-select form-select-lg mb-3" aria-label="Default select example"
-            name="semester">
-        <option th:each="semester : ${semesters}"
-                th:value="${semester.id}" th:text="${semester.semesterStart} + '/' +  ${semester.semesterEnd}"></option>
-    </select>
-</label><br>
-    Teacher: <label th:name="teacher">
-    <select th:field="*{teacherId}" class="form-select form-select-lg mb-3" aria-label="Default select example"
-            name="semester">
-        <option th:each="teacher : ${teachers}"
-                th:value="${teacher.id}"
-                th:text="${teacher.user.name} + ' '  + ${teacher.user.surname} + ' ' + ${teacher.user.patronymic}"></option>
-    </select>
-</label><br>
+    <div class="col-md-4 mt-5">
+        <label for="date">Date</label>
+        <div class="input-group date">
+            <input type="date" class="form-control" id="date" autocomplete="off" th:field="*{date}"/>
+        </div>
+    </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+
+<script>
+    $('.input-group.date').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
 </body>
 </html>

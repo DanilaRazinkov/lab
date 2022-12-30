@@ -13,9 +13,9 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
     today
 </span>
 <div>
-    <a th:href="@{/teacher/{id}/{weak}(id=${dto.id},weak=${dto.getHidenToday().minusDays(7)})}">Prev
+    <a th:href="@{/aud/{aud}/couple/{weak}(aud=${dto.aud},weak=${dto.getHidenToday().minusDays(7)})}">Prev
         weak</a>
-    <a th:href="@{/teacher/{id}/{weak}(id=${dto.id},weak=${dto.getHidenToday().plusDays(7)})}">Next
+    <a th:href="@{/aud/{aud}/couple/{weak}(aud=${dto.aud},weak=${dto.getHidenToday().plusDays(7)})}">Next
         weak</a>
 </div>
 <table id="example" class="table table-striped table-bordered">
@@ -33,9 +33,13 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                  th:text="'Subject: ' + ${dto.mon.get(hour).getSubject().getName()}">
                 Subject
             </div>
-            <a th:if="${dto.mon.get(hour)} != null" th:text="'Audience: ' + ${dto.mon.get(hour).getAudience()}"
-                 th:href="@{/aud/{aud}/couple(aud=${dto.mon.get(hour).getAudience()})}"> Mon
+            <div th:if="${dto.tue.get(hour)} != null" th:text="'Audience: ' + ${dto.tue.get(hour).getAudience()}"> Mon
                 Couple
+            </div>
+            <a th:if="${dto.mon.get(hour)} != null"
+               th:text="'Teacher: ' + ${dto.mon.get(hour).getTeacher().user.surname}"
+               th:href="@{/users/{id}/(id=${dto.mon.get(hour).getTeacher().user.id})}">
+                Teacher
             </a>
             <div th:if="${dto.mon.get(hour)} != null"
                  th:text="'Groups: ' + ${dto.mon.get(hour).getGroups()}">
@@ -46,9 +50,13 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                  th:text="'Subject: ' + ${dto.tue.get(hour).getSubject().getName()}">
                 Subject
             </div>
-            <a th:if="${dto.tue.get(hour)} != null" th:text="'Audience: ' + ${dto.tue.get(hour).getAudience()}"
-                 th:href="@{/aud/{aud}/couple(aud=${dto.tue.get(hour).getAudience()})}"> Mon
+            <div th:if="${dto.tue.get(hour)} != null" th:text="'Audience: ' + ${dto.tue.get(hour).getAudience()}"> Mon
                 Couple
+            </div>
+            <a th:if="${dto.tue.get(hour)} != null"
+                 th:text="'Teacher: ' + ${dto.tue.get(hour).getTeacher().user.surname}"
+                 th:href="@{/users/{id}/(id=${dto.tue.get(hour).getTeacher().user.id})}">
+                Teacher
             </a>
             <div th:if="${dto.tue.get(hour)} != null"
                  th:text="'Groups: ' + ${dto.tue.get(hour).getGroups()}">
@@ -62,9 +70,13 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                  th:text="'Subject: ' + ${dto.wen.get(hour).getSubject().getName()}">
                 Subject
             </div>
-            <a th:if="${dto.wen.get(hour)} != null" th:text="'Audience: ' + ${dto.wen.get(hour).getAudience()}"
-                 th:href="@{/aud/{aud}/couple(aud=${dto.wen.get(hour).getAudience()})}"> Mon
+            <div th:if="${dto.wen.get(hour)} != null" th:text="'Audience: ' + ${dto.wen.get(hour).getAudience()}"> Mon
                 Couple
+            </div>
+            <a th:if="${dto.wen.get(hour)} != null"
+                 th:text="'Teacher: ' + ${dto.wen.get(hour).getTeacher().user.surname}"
+                 th:href="@{/users/{id}/(id=${dto.wen.get(hour).getTeacher().user.id})}">
+                Teacher
             </a>
             <div th:if="${dto.wen.get(hour)} != null"
                  th:text="'Groups: ' + ${dto.wen.get(hour).getGroups()}">
@@ -78,9 +90,13 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                  th:text="'Subject: ' + ${dto.thu.get(hour).getSubject().getName()}">
                 Subject
             </div>
-            <a th:if="${dto.thu.get(hour)} != null" th:text="'Audience: ' + ${dto.thu.get(hour).getAudience()}"
-                 th:href="@{/aud/{aud}/couple(aud=${dto.thu.get(hour).getAudience()})}"> Mon
+            <div th:if="${dto.thu.get(hour)} != null" th:text="'Audience: ' + ${dto.thu.get(hour).getAudience()}"> Mon
                 Couple
+            </div>
+            <a th:if="${dto.thu.get(hour)} != null"
+                 th:text="'Teacher: ' + ${dto.thu.get(hour).getTeacher().user.surname}"
+                 th:href="@{/users/{id}/(id=${dto.thu.get(hour).getTeacher().user.id})}">
+                Teacher
             </a>
             <div th:if="${dto.thu.get(hour)} != null"
                  th:text="'Groups: ' + ${dto.thu.get(hour).getGroups()}">
@@ -97,9 +113,13 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                  th:text="'Subject: ' + ${dto.fri.get(hour).getSubject().getName()}">
                 Subject
             </div>
-            <a th:if="${dto.fri.get(hour)} != null" th:text="'Audience: ' + ${dto.fri.get(hour).getAudience()}"
-                 th:href="@{/aud/{aud}/couple(aud=${dto.fri.get(hour).getAudience()})}"> Mon
+            <div th:if="${dto.fri.get(hour)} != null" th:text="'Audience: ' + ${dto.fri.get(hour).getAudience()}"> Mon
                 Couple
+            </div>
+            <a th:if="${dto.fri.get(hour)} != null"
+                 th:text="'Teacher: ' + ${dto.fri.get(hour).getTeacher().user.surname}"
+                 th:href="@{/users/{id}/(id=${dto.fir.get(hour).getTeacher().user.id})}">
+                Teacher
             </a>
             <div th:if="${dto.fri.get(hour)} != null"
                  th:text="'Groups: ' + ${dto.fri.get(hour).getGroups()}">
@@ -110,9 +130,13 @@ Today: <span th:text="${dto.todayT} + ' ' + ${dto.todayT.dayOfWeek}">
                  th:text="'Subject: ' + ${dto.sun.get(hour).getSubject().getName()}">
                 Subject
             </div>
-            <a th:if="${dto.sun.get(hour)} != null" th:text="'Audience: ' + ${dto.sun.get(hour).getAudience()}"
-                 th:href="@{/aud/{aud}/couple(aud=${dto.sat.get(hour).getAudience()})}"> Mon
+            <div th:if="${dto.sun.get(hour)} != null" th:text="'Audience: ' + ${dto.sun.get(hour).getAudience()}"> Mon
                 Couple
+            </div>
+            <a th:if="${dto.sun.get(hour)} != null"
+                 th:text="'Teacher: ' + ${dto.sun.get(hour).getTeacher().user.surname}"
+                 th:href="@{/users/{id}/(id=${dto.sun.get(hour).getTeacher().user.id})}">
+                Teacher
             </a>
             <div th:if="${dto.sun.get(hour)} != null"
                  th:text="'Groups: ' + ${dto.sun.get(hour).getGroups()}">

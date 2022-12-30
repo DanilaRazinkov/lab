@@ -48,6 +48,10 @@ class OccupationService(
         occupationRepository.save(ocu)
     }
 
+    fun loadAllByAud(aud: String): List<Occupation> {
+        return occupationRepository.findAllByAudience(aud)
+    }
+
     fun check(date: LocalDate, hour: Int, teacherId: UUID) {
         if (occupationRepository.findAllByDateAndHourAndTeacherId(date, hour, teacherId).isNotEmpty()) {
             throw NotFoundException("re")

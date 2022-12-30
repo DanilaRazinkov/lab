@@ -5,10 +5,7 @@ import com.example.lab.model.dto.request.CoupleDto
 import com.example.lab.model.dto.request.toDTO
 import com.example.lab.model.dto.response.BaseCoupleResponses
 import com.example.lab.model.enums.Period
-import com.example.lab.service.CoupleService
-import com.example.lab.service.GroupService
-import com.example.lab.service.StudentService
-import com.example.lab.service.UserService
+import com.example.lab.service.*
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -35,7 +32,8 @@ class StudentController(
     private val userService: UserService,
     private val studentService: StudentService,
     private val groupService: GroupService,
-    private val coupleService: CoupleService
+    private val coupleService: CoupleService,
+    private val occupationService: OccupationService
 ) {
 
     @PostMapping("/students")
@@ -141,6 +139,78 @@ class StudentController(
         }
         model.addAttribute("dto", coupleResponse)
         return "base_couple"
+    }
+
+    @GetMapping("/aud/{aud}/couple")
+    fun loadAud(@PathVariable aud: String, model: Model): String {
+        val now = LocalDate.now()
+        val weak = WeekFields.of(Locale.getDefault())
+        val number = now.get(weak.weekOfWeekBasedYear());
+        val firstDay = now.with(DayOfWeek.MONDAY)
+        val isNum = number % 2 == 0
+        val coupleResponse = BaseCoupleResponses(aud = aud)
+
+        val couples = coupleService.loadAllByAud(aud)
+//        couples.forEach {
+//            val day = now.with(it.day)
+//            if (isNum && it.period == Period.NUMERATOR || !isNum && it.period == Period.DENOMINATION || Period.FULL == it.period) {
+//                val list = loadDay(it.day, coupleResponse)
+//                list?.put(it.hour, it.toDTO())
+//            }
+//        }
+        val ocup = occupationService.loadAllByAud(aud)
+
+        ocup.forEach {
+            val weak1 = it.date.get(weak.weekOfWeekBasedYear())
+            if (weak1 == number) {
+                val day = now.dayOfWeek
+                val list = loadDay(day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+        if (now == LocalDate.now()) {
+            coupleResponse.today = now.dayOfWeek
+        }
+        model.addAttribute("dto", coupleResponse)
+        return "aud_teacher_coupless"
+    }
+
+    @GetMapping("/aud/{aud}/couple/{today}")
+    fun loadAud(
+        @PathVariable aud: String,
+        @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) today: LocalDate,
+        model: Model
+    ): String {
+        val now = today
+        val weak = WeekFields.of(Locale.getDefault())
+        val number = now.get(weak.weekOfWeekBasedYear());
+        val firstDay = now.with(DayOfWeek.MONDAY)
+        val isNum = number % 2 == 0
+        val coupleResponse = BaseCoupleResponses(aud = aud, hidenToday = now)
+
+//        val couples = coupleService.loadAllByAud(aud)
+//        couples.forEach {
+//            val day = now.with(it.day)
+//            if (isNum && it.period == Period.NUMERATOR || !isNum && it.period == Period.DENOMINATION || Period.FULL == it.period) {
+//                val list = loadDay(it.day, coupleResponse)
+//                list?.put(it.hour, it.toDTO())
+//            }
+//        }
+        val ocup = occupationService.loadAllByAud(aud)
+
+        ocup.forEach {
+            val weak1 = it.date.get(weak.weekOfWeekBasedYear())
+            if (weak1 == number) {
+                val day = now.dayOfWeek
+                val list = loadDay(day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+        if (now == LocalDate.now()) {
+            coupleResponse.today = now.dayOfWeek
+        }
+        model.addAttribute("dto", coupleResponse)
+        return "aud_teacher_coupless"
     }
 
     private fun nullDay(dayOfWeek: DayOfWeek, coupleResponse: BaseCoupleResponses) {

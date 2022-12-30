@@ -10,4 +10,5 @@ import java.util.*
 interface OccupationRepository : JpaRepository<Occupation, Long> {
     fun findAllByTeacherIdOrderByDateAscHour(id: UUID): List<Occupation>
     fun findAllByDateAndHourAndTeacherId(date: LocalDate, hour: Int, teacher_id: UUID): List<Occupation>
+    fun findAllByAudience(audience: String): List<Occupation>
 }

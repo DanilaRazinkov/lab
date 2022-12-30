@@ -65,6 +65,7 @@
             <input type="text" class="form-control" name="degree" id="degree">
         </div>
         <button type="submit" th:field="*{degree}" class="btn btn-primary">Submit</button>
+        <a th:href="@{/teacher/{id}/couple(id=${user.getId()})}">Расписание преподавателя</a>
     </form>
 </div>
 </body>

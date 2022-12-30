@@ -18,7 +18,8 @@ data class BaseCoupleResponses(
     var todayT: LocalDate = LocalDate.now(),
     var hidenToday: LocalDate = LocalDate.now(),
     var group: Long = 0,
-    var firstDay: LocalDate = hidenToday.with(DayOfWeek.MONDAY)
+    var firstDay: LocalDate = hidenToday.with(DayOfWeek.MONDAY),
+    val aud: String = ""
 )
 
 data class TeacherCoupleResponses(
@@ -31,5 +32,6 @@ data class TeacherCoupleResponses(
     var today: DayOfWeek? = null,
     var todayT: LocalDate = LocalDate.now(),
     var hidenToday: LocalDate = LocalDate.now(),
-    var firstDay: LocalDate = hidenToday.with(DayOfWeek.MONDAY)
+    var firstDay: LocalDate = hidenToday.with(DayOfWeek.MONDAY),
+    val id: UUID
 )

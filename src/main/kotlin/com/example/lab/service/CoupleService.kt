@@ -35,6 +35,10 @@ class CoupleService(
         return coupleRepository.findById(coupleId).orElseThrow { NotFoundException("") }
     }
 
+    fun loadAllByAud(aud: String): List<Couple> {
+        return coupleRepository.findAllByAudience(aud)
+    }
+
     fun updateCouple(coupleId: Long, dto: CoupleCreatRequests) {
         val aud = dto.audience
         val hour = dto.hour

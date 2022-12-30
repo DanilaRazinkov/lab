@@ -14,7 +14,7 @@ class SemesterService(
     private val semesterRepository: SemesterRepository
 ) {
 
-    fun findAll() = semesterRepository.findAll()
+    fun findAll(): MutableList<Semester> = semesterRepository.findAll()
 
     fun findById(uuid: Long): Semester {
         return semesterRepository.findById(uuid).orElseThrow { NotFoundException("") }

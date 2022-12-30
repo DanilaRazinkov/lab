@@ -137,7 +137,7 @@ class TeacherController(
         val number = now.get(weak.weekOfWeekBasedYear());
         val firstDay = now.with(DayOfWeek.MONDAY)
         val isNum = number % 2 == 0
-        val coupleResponse = TeacherCoupleResponses()
+        val coupleResponse = TeacherCoupleResponses(id = currentUser.id!!)
         val teacher = teacherService.findById(currentUser.teacher!!.id)
         teacher.couple.forEach {
             val day = now.with(it.day)
@@ -181,9 +181,95 @@ class TeacherController(
         val number = now.get(weak.weekOfWeekBasedYear());
         val firstDay = now.with(DayOfWeek.MONDAY)
         val isNum = number % 2 == 0
-        val coupleResponse = TeacherCoupleResponses(hidenToday = now)
-
         val currentUser = userService.findCurrentUser()
+        val coupleResponse = TeacherCoupleResponses(hidenToday = now, id = currentUser.id!!)
+
+        val teacher = teacherService.findById(currentUser.teacher!!.id)
+        teacher.couple.forEach {
+            val day = now.with(it.day)
+            if (isNum && it.period == Period.NUMERATOR || !isNum && it.period == Period.DENOMINATION || Period.FULL == it.period) {
+                val list = loadDay(it.day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+        teacher.occupation.forEach {
+            val weak1 = it.date.get(weak.weekOfWeekBasedYear())
+            if (weak1 == number) {
+                val day = now.dayOfWeek
+                val list = loadDay(day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+//        val t = currentUser.teacher!!.couple.firstOrNull()
+//        if (t == null) {
+//            model.addAttribute("dto", TeacherCoupleResponses())
+//            return "base_couple"
+//        }
+//        t.semester.holidays.forEach {
+//            if (it.date.get(weak.weekOfWeekBasedYear()) == number) {
+//                nullDay(it.date.dayOfWeek, coupleResponse)
+//            }
+//        }
+        model.addAttribute("dto", coupleResponse)
+        return "teacher_coupless"
+    }
+
+    @GetMapping("/teacher/{id}/couple")
+    fun userCoupleById(model: Model, @PathVariable id: UUID): String {
+        val currentUser = userService.findCurrentUser()
+        userService.findUserById(id)
+        val now = LocalDate.now()
+        val weak = WeekFields.of(Locale.getDefault())
+        val number = now.get(weak.weekOfWeekBasedYear());
+        val firstDay = now.with(DayOfWeek.MONDAY)
+        val isNum = number % 2 == 0
+        val coupleResponse = TeacherCoupleResponses( id = id)
+        val teacher = teacherService.findById(currentUser.teacher!!.id)
+        teacher.couple.forEach {
+            val day = now.with(it.day)
+            if (isNum && it.period == Period.NUMERATOR || !isNum && it.period == Period.DENOMINATION || Period.FULL == it.period) {
+                val list = loadDay(it.day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+        teacher.occupation.forEach {
+            val weak1 = it.date.get(weak.weekOfWeekBasedYear())
+            if (weak1 == number) {
+                val day = now.dayOfWeek
+                val list = loadDay(day, coupleResponse)
+                list?.put(it.hour, it.toDTO())
+            }
+        }
+        if (now == LocalDate.now()) {
+            coupleResponse.today = now.dayOfWeek
+        }
+//        val t = currentUser.teacher!!.couple.firstOrNull()
+//        if (t == null) {
+//            model.addAttribute("dto", BaseCoupleResponses())
+//            return "base_couple"
+//        }
+//        t.semester.holidays.forEach {
+//            if (it.date.get(weak.weekOfWeekBasedYear()) == number) {
+//                nullDay(it.date.dayOfWeek, coupleResponse)
+//            }
+//        }
+        model.addAttribute("dto", coupleResponse)
+        return "teacher_coupless"
+    }
+
+    @GetMapping("/teacher/{id}/{today}")
+    fun loadById(
+        @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) today: LocalDate,
+        model: Model, @PathVariable id: UUID
+    ): String {
+        val now = today
+        val weak = WeekFields.of(Locale.getDefault())
+        val number = now.get(weak.weekOfWeekBasedYear());
+        val firstDay = now.with(DayOfWeek.MONDAY)
+        val isNum = number % 2 == 0
+        val coupleResponse = TeacherCoupleResponses(hidenToday = now, id = id)
+
+        val currentUser = userService.findUserById(id)
         val teacher = teacherService.findById(currentUser.teacher!!.id)
         teacher.couple.forEach {
             val day = now.with(it.day)
